@@ -1,0 +1,91 @@
+{
+ "Mon May 04 2015 19:24:20 GMT+0100 (BST)": [
+  {
+   "x": "-0.2716763005780347",
+   "y": "0.15062903774226455",
+   "t": "1"
+  },
+  {
+   "x": "-0.00867052023121384",
+   "y": "0.06927142901301342",
+   "t": "402"
+  },
+  {
+   "x": "0.4046242774566473",
+   "y": "0.016970109115637788",
+   "t": "793"
+  }
+ ],
+ "Mon May 04 2015 19:32:45 GMT+0100 (BST)": [
+  {
+   "x": "-0.3786127167630058",
+   "y": "-0.4363079966616179",
+   "t": "1"
+  },
+  {
+   "x": "-0.33526011560693647",
+   "y": "0.06927142901301342",
+   "t": "514"
+  },
+  {
+   "x": "0.18208092485549132",
+   "y": "0.18549658434051497",
+   "t": "1039"
+  }
+ ],
+ "Mon May 04 2015 20:38:53 GMT+0100 (BST)": [
+  {
+   "x": "-0.5520231213872833",
+   "y": "-0.5002318320917437",
+   "t": "1"
+  },
+  {
+   "x": "-0.3265895953757225",
+   "y": "-0.11087756174461383",
+   "t": "361"
+  },
+  {
+   "x": "0.6502890173410405",
+   "y": "0.2203641309387654",
+   "t": "714"
+  }
+ ],
+ "Mon May 04 2015 20:38:56 GMT+0100 (BST)": [
+  {
+   "x": "-0.48554913294797686",
+   "y": "-0.28521529473586593",
+   "t": "0"
+  },
+  {
+   "x": "-0.2890173410404624",
+   "y": "-0.023708695248987666",
+   "t": "320"
+  },
+  {
+   "x": "0.17052023121387294",
+   "y": "-0.3433278723996167",
+   "t": "617"
+  }
+ ],
+ "Mon May 04 2015 21:01:09 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 21:03:40 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 21:58:03 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 21:58:18 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 21:58:22 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 21:58:28 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:04:13 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:04:18 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:40:44 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:36:11 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:42:56 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:43:00 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:50:54 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:50:58 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:51:02 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 22:56:29 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 23:04:01 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 23:08:23 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 23:10:05 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 23:10:48 GMT+0100 (BST)": "[object Object],[object Object],[object Object]",
+ "Mon May 04 2015 23:10:52 GMT+0100 (BST)": "[object Object],[object Object],[object Object]"
+}

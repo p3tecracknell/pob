@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>  
+        <meta charset="utf-8">
+        <meta name="description" content="">
+        <meta name="keywords" content="">
+        <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=0, minimal-ui" />
+        <title>POB</title>
+        <link rel="stylesheet" href="css/app.css">
+        <style>
+            body {
+                background-color: #254d99;
+                margin: 0;
+            }
+
+            .circle {
+                position: absolute;
+                border-radius: 50%;
+                width: 28px; height: 28px;
+                background-color: rgba(125, 125, 125, 0.5);
+                display: inline-block;
+                position: absolute;
+                left: 0px; top: 0px;
+                pointer-events: none;
+            }
+
+            #performer-select {
+                position: absolute;
+                background-color: #fff;
+                top: 0;
+                display: none;
+            }
+
+            #container {
+                position: absolute;
+            }
+
+        </style>
+        <script src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="bower_components/knockout/dist/knockout.js"></script>
+        <script src="js/jquery.mobile.custom.min.js"></script>
+        <script src="bower_components/ramda/dist/ramda.min.js"></script>
+        <script>
+            var viewModel = new function () {
+                var self = this;
+
+                self.userId = ko.observable(window.localStorage.getItem('userId'));
+                self.performers = ko.observable();
+                ko.computed(function() {
+                    if (!self.userId()) return;
+                    $.get('/api/user/' + self.userId(), R.pipe(
+                        R.prop('performers'),
+                        self.performers
+                    ));
+                }, self);
+                self.selectedPerformer = ko.observable();
+                self.startTime = ko.observable();
+
+                self.routine = ko.observableArray([]);
+                self.routineFormatted = ko.pureComputed(function () {
+                    var routine = self.routine();
+                    return [{
+                        property : 'Skill',
+                        values   : R.times(R.identity, routine.length)
+                    }, {
+                        property : 'Time',
+                        values   : R.pipe(R.pluck('t'), R.map(formatTime))(routine)
+                    }, {
+                        property : 'Travel',
+                        values   : R.pipe(R.pluck('x'), R.map(toPercentage))(routine)
+                    }, {
+                        property : 'Cast',
+                        values   : R.pipe(R.pluck('y'), R.map(toPercentage))(routine)
+                    }];
+                });
+
+                self.recording = ko.observable(false);
+
+                self.saveRoutine = function () {
+                    $.post('/api/save/', {
+                        routine   : self.routine,
+                        time      : self.startTime(),
+                        userId    : self.userId(),
+                        performer : self.selectedPerformer()
+                    });
+                    viewModel.reset();
+                    $performerSelect.fadeOut(200);
+                };
+
+                self.start = function () {
+                    self.routine.removeAll();
+                    self.startTime(new Date());
+                    self.recording(true);
+                };
+
+                self.reset = function () {
+                    $('.circle').hide();
+                    self.recording(false);
+                }
+            };
+
+            var $container, $bed,
+                $circles, width, height,
+                circleRadius = 14,
+                points = 2;
+
+            window.onload = function () {
+                ko.applyBindings(viewModel);
+
+                $container = $('#container');
+                $bed = $('#bed'),
+                $performerSelect = $('#performer-select');
+
+                calculateDims();
+
+                if (!viewModel.userId()) {
+                    var username = window.prompt('Who are you?');
+                    $.post('/api/user', {name: username}, function (response) {
+                        var userId = response.id;
+                        viewModel.userId(userId);
+                        //todo bind to observable
+                        window.localStorage.setItem('userId', userId);
+                    });
+                }
+
+                $container.append($circles = $.map(new Array(points + 1), function () {
+                    return $('<div class="circle"></div>').hide();
+                }));
+
+                $('#bed').click(function(e) {
+                    var offset = $(this).offset();
+                    addPoint(e.pageX - offset.left, y = e.pageY - offset.top);
+                });
+            };
+
+            function addPoint(x, y) {
+                if (!viewModel.recording()) viewModel.start();
+
+                var i = viewModel.routine().length;
+                $circles[i].css({left: x-circleRadius, top: y-circleRadius}).show();
+                savePoint(x, y);
+                if (i === points) {
+                    showPerformerSelect();
+                }
+            }
+
+            function showPerformerSelect() {
+                $performerSelect.fadeIn(200);
+            }
+
+            function savePoint(x, y) {
+                var calibX = (2 * x / width) - 1,
+                    calibY = (2 * y / height) - 1,
+                    time = (new Date() - viewModel.startTime());
+                viewModel.routine.push({
+                    x: calibX,
+                    y: calibY,
+                    t: time
+                });
+            }
+
+            function calculateDims() {
+                var containerWidth = $(window).width(),  containerHeight = $(window).height(),
+                    containerRatio = containerWidth / containerHeight,
+                    bedWidth = $bed.width(), bedHeight = $bed.height(),
+                    bedRatio = bedWidth / bedHeight;
+
+                if (bedRatio > containerRatio) {
+                    width = containerWidth;height = containerWidth / bedRatio;
+                    $container.css({top: (containerHeight - height) * 0.5});
+                }
+                else {
+                    height = containerHeight;width = containerHeight * bedRatio;
+                    $container.css({left: (containerWidth - width) * 0.5});
+                }
+
+                $bed.width(width); $bed.height(height);
+            }
+
+            function formatTime(t) {
+                return (t * 0.001).toFixed(2) + 's';
+            }
+
+            function toPercentage(p) {
+                return (p * 100).toFixed(0) + '%';
+            }
+        </script>
+    </head>
+    <body>
+        <div id="container">
+            <img id="bed" src="images/bed.png"/>
+        </div>
+    <div id="performer-select">
+        <table data-bind="foreach: routineFormatted">
+            <tr data-bind="foreach: values">
+                <td data-bind="text: $data"></td>
+            </tr>
+            <!--tr data-bind="foreach: routine"><td data-bind="text: $index"></td></tr>
+            <tr data-bind="foreach: routine"><td data-bind="text: $data.t"></td></tr>
+            <tr data-bind="foreach: routine"><td data-bind="text: percentage($data.x)"></td></tr-->
+        </table>
+        <form data-bind="submit: saveRoutine">
+            <select data-bind="options: performers, optionsText: 'name',
+                       optionsValue: 'id', value: selectedPerformer"></select><button type="submit">Save</button>
+        </form>
+    </div>
+    </body>
+</html>

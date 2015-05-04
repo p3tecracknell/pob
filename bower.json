@@ -1,0 +1,22 @@
+{
+  "name": "pob",
+  "version": "0.0.1",
+  "homepage": "https://github.com/p3tecracknell/pob",
+  "authors": [
+    "p3tecracknell@gmail.com"
+  ],
+  "main": "index.html",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "ramda": "~0.13.0",
+    "knockout": "~3.3.0"
+  }
+}
